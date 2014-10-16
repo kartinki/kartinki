@@ -1,0 +1,22 @@
+{
+    "name": "happyproff/kartinki",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stanislav Gamayunov",
+            "email": "happyproff@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "happyproff\\Kartinki\\": "lib/"
+        }
+    },
+    "require": {
+        "php": ">=5.4",
+        "imagine/imagine": "~0.6.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.3.3"
+    }
+}

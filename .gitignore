@@ -1,0 +1,7 @@
+.idea/
+vendor/
+log/
+logs/
+cgi-bin/
+.htpasswd
+composer.lock
