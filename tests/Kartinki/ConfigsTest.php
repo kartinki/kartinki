@@ -43,17 +43,15 @@ class ConfigsTest extends \PHPUnit_Framework_TestCase {
             $config = $configParser->parse('');
         } catch (\Exception $e) {
             $this->assertInstanceOf('happyproff\Kartinki\Exceptions\InvalidConfigException', $e);
-        } finally {
-            $this->assertEquals(null, $config);
         }
+        $this->assertEquals(null, $config);
 
         try {
             $config = $configParser->parse('abcs');
         } catch (\Exception $e) {
             $this->assertInstanceOf('happyproff\Kartinki\Exceptions\InvalidConfigException', $e);
-        } finally {
-            $this->assertEquals(null, $config);
         }
+        $this->assertEquals(null, $config);
 
         try {
             $config = $configParser->parse('200x300x400');
