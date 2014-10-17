@@ -20,13 +20,15 @@ class Kartinki {
     const NAME_SEPARATOR = '_';
 
 
+    /**
+     * @var string
+     */
     public $outputDir;
 
     /**
      * @var ImagineInterface
      */
     protected $processor;
-
 
     /**
      * @var ConfigParser
