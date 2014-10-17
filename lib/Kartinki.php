@@ -5,6 +5,7 @@
 namespace happyproff\Kartinki;
 
 
+
 use happyproff\Kartinki\Interfaces\ConfigInterface;
 use Imagine\Image\ImagineInterface;
 use Imagine\Image\ImageInterface;
@@ -18,6 +19,7 @@ class Kartinki {
 
 
     const NAME_SEPARATOR = '_';
+
 
 
     /**
@@ -82,6 +84,12 @@ class Kartinki {
 
 
 
+    /**
+     * @param ImageInterface $image
+     * @param ConfigInterface $versionConfig
+     *
+     * @return ImageInterface
+     */
     protected function createImageVersion (ImageInterface $image, ConfigInterface $versionConfig) {
 
         $width = $versionConfig->getWidth();
