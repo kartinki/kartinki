@@ -5,18 +5,12 @@
 namespace happyproff\Kartinki\Exceptions;
 
 
-
-class InvalidConfigException extends \InvalidArgumentException {
-
-
-
+class InvalidConfigException extends \InvalidArgumentException
+{
     //
 
 
-
     //
-
 
 
 }
- 

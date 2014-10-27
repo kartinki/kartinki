@@ -1,22 +1,8 @@
 <?php
 
-
-
 namespace happyproff\Kartinki\Exceptions;
 
-
-
-class InvalidArgumentException extends \InvalidArgumentException {
-
-
-
+class InvalidArgumentException extends \InvalidArgumentException
+{
     //
-
-
-
-    //
-
-
-
 }
- 
