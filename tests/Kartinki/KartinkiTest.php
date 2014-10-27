@@ -15,9 +15,9 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
 
     public function testVersionsCreating()
     {
-        $this->_testImage('bigh.jpg');
-        $this->_testImage('bigv.jpg');
-        $this->_testImage('smallh.png');
+        $this->_testImage('big-horizontal.jpg');
+        $this->_testImage('big-vertical.jpg');
+        $this->_testImage('small-horizontal.png');
     }
 
     private function prepareTempDir()
