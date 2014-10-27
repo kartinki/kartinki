@@ -1,29 +1,20 @@
 <?php
 
-
-
 namespace happyproff\Kartinki;
 
-
-
-class ConfigsTest extends \PHPUnit_Framework_TestCase {
-
-
-
-    public function testInstancesCreation () {
-
+class ConfigsTest extends \PHPUnit_Framework_TestCase
+{
+    public function testInstancesCreation()
+    {
         $this->assertInstanceOf('happyproff\Kartinki\ConfigParser', new ConfigParser);
         $this->assertInstanceOf('happyproff\Kartinki\Config', new Config);
-
     }
-
-
 
     /**
      * @depends testInstancesCreation
      */
-    public function testConfigParser () {
-
+    public function testConfigParser()
+    {
         $configParser = new ConfigParser;
 
         $config = $configParser->parse('200x300');
@@ -66,10 +57,5 @@ class ConfigsTest extends \PHPUnit_Framework_TestCase {
             $this->assertInstanceOf('happyproff\Kartinki\Exceptions\InvalidConfigException', $e);
         }
         $this->assertEquals(null, $config);
-
     }
-
-
-
 }
- 

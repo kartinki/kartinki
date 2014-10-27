@@ -1,62 +1,46 @@
 <?php
 
-
-
 namespace happyproff\Kartinki;
 
-
-
-class KartinkiTest extends \PHPUnit_Framework_TestCase {
-
-
-
+class KartinkiTest extends \PHPUnit_Framework_TestCase
+{
     private static $assetsDir;
     private static $tempDir;
 
-
-
-    public static function setUpBeforeClass () {
-
+    public static function setUpBeforeClass()
+    {
         self::$assetsDir = dirname(dirname(__FILE__)) . '/assets';
         self::$tempDir = self::$assetsDir . '/tmp';
-
     }
 
-
-
-    public function testVersionsCreating () {
-
+    public function testVersionsCreating()
+    {
         $this->_testImage('bigh.jpg');
         $this->_testImage('bigv.jpg');
         $this->_testImage('smallh.png');
-
     }
 
-
-
-    private function prepareTempDir () {
-
-        if (is_dir(self::$tempDir)) $this->removeTempDir();
+    private function prepareTempDir()
+    {
+        if (is_dir(self::$tempDir)) {
+            $this->removeTempDir();
+        }
         mkdir(self::$tempDir);
-
     }
 
-
-
-    private function removeTempDir () {
-
+    private function removeTempDir()
+    {
         foreach (scandir(self::$tempDir) as $file) {
-            if (in_array($file, ['.', '..'])) continue;
+            if (in_array($file, ['.', '..'])) {
+                continue;
+            }
             unlink(self::$tempDir . '/' . $file);
         }
         rmdir(self::$tempDir);
-
     }
 
-
-
-    private function _testImage ($imageName) {
-
+    private function _testImage($imageName)
+    {
         $this->prepareTempDir();
 
         $versions = [
@@ -66,7 +50,7 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase {
             'big' => ['width' => 400, 'height' => 400, 'fit' => true],
             'orig' => ['width' => 0, 'height' => 0, 'fit' => false],
         ];
-        $versionsConfig = array_map(function($value){
+        $versionsConfig = array_map(function ($value) {
             return $value['width'] . 'x' . $value['height'] . ($value['fit'] ? ':fit' : '');
         }, $versions);
 
@@ -82,8 +66,12 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase {
             list($width, $height) = getimagesize(self::$tempDir . '/' . $result[$versionName]);
 
             if (!$versionConfig['fit']) {
-                if ($versionConfig['width']) $this->assertEquals($versionConfig['width'], $width);
-                if ($versionConfig['height']) $this->assertEquals($versionConfig['height'], $height);
+                if ($versionConfig['width']) {
+                    $this->assertEquals($versionConfig['width'], $width);
+                }
+                if ($versionConfig['height']) {
+                    $this->assertEquals($versionConfig['height'], $height);
+                }
             }
         }
 
@@ -97,10 +85,5 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->removeTempDir();
-
     }
-
-
-
 }
- 
