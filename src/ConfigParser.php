@@ -18,26 +18,52 @@ class ConfigParser implements ConfigParserInterface
         $configObject = new Config;
 
         if (!is_string($config)) {
-            throw new InvalidConfigException('$config must be a string.');
+            throw new InvalidConfigException('Config must be a string.');
         }
 
-        $parts = explode(':', $config);
-        if (count($parts) == 0 or count($parts) > 2) {
-            throw new InvalidConfigException('Too match ":".');
+        $parts = explode(',', $config);
+
+        /**
+         * thumbnailConfig      DIMENSIONS[:fit]
+         *  DIMENSIONS          WIDTHxHEIGHT
+         */
+        $thumbnailConfigParts = explode(':', $parts[0]);
+        if (count($thumbnailConfigParts) > 2) {
+            throw new InvalidConfigException('Thumbnail config "' . $parts[0] . '" is incorrect.');
         }
 
-        $dimensions = explode('x', $parts[0]);
-        if (count($dimensions) !== 2) {
-            throw new InvalidConfigException('Dimensions "' . $parts[0] . '" is incorrect.');
+        $thumbnailConfigDimensions = explode('x', $thumbnailConfigParts[0]);
+        if (count($thumbnailConfigDimensions) !== 2) {
+            throw new InvalidConfigException('Thumbnail config dimensions "' . $thumbnailConfigParts[0] . '" is incorrect.');
         }
-        $configObject->setWidth(intval($dimensions[0]));
-        $configObject->setHeight(intval($dimensions[1]));
+        $configObject->setWidth(intval($thumbnailConfigDimensions[0]));
+        $configObject->setHeight(intval($thumbnailConfigDimensions[1]));
 
-        if (array_key_exists(1, $parts)) {
-            if ($parts[1] !== 'fit') {
-                throw new InvalidConfigException('Unknown modifier ":' . $parts[1] . '".');
-            } else {
+        if (isset($thumbnailConfigParts[1])) {
+            if ($thumbnailConfigParts[1] === 'fit') {
                 $configObject->setFit(true);
+            } else {
+                throw new InvalidConfigException('Thumbnail config modifier "' . $thumbnailConfigParts[1] . '" is incorrect.');
+            }
+        }
+
+
+        if (count($parts) > 1) {
+            foreach (array_slice($parts, 1) as $parameter) {
+                $parameterParts = explode('=', $parameter);
+                $parameterName = $parameterParts[0];
+                $parameterValue = array_key_exists(1, $parameterParts) ? $parameterParts[1] : null;
+                switch ($parameterName) {
+                    case 'quality':
+                        if ($parameterValue === null) {
+                            throw new InvalidConfigException('Quality value "' . $parameterValue . '" is incorrect.');
+                        } else {
+                            $configObject->setQuality(intval($parameterValue));
+                        }
+                        break;
+                    default:
+                        throw new InvalidConfigException('Parameter "' . $parameterName . '" is incorrect.');
+                }
             }
         }
 

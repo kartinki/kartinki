@@ -44,14 +44,14 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
         $this->prepareTempDir();
 
         $versions = [
-            'thumb' => ['width' => 200, 'height' => 200, 'fit' => false, 'quality' => 0],
+            'thumb' => ['width' => 200, 'height' => 200, 'fit' => false, 'quality' => 10],
             'vertical' => ['width' => 200, 'height' => 0, 'fit' => false],
             'horizontal' => ['width' => 0, 'height' => 200, 'fit' => false],
             'big' => ['width' => 400, 'height' => 400, 'fit' => true],
             'orig' => ['width' => 0, 'height' => 0, 'fit' => false],
         ];
         $versionsConfig = array_map(function ($value) {
-            return $value['width'] . 'x' . $value['height'] . ($value['fit'] ? ':fit' : '');
+            return $value['width'] . 'x' . $value['height'] . ($value['fit'] ? ':fit' : '') . (isset($value['quality']) ? ',quality=' . $value['quality'] : '');
         }, $versions);
 
 

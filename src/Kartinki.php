@@ -58,7 +58,7 @@ class Kartinki
             $config = $this->configParser->parse($versionConfig);
 
             $version = $this->createImageVersion($image, $config);
-            $version->save($outputDir . '/' . $versionFilename);
+            $version->save($outputDir . '/' . $versionFilename, ['jpeg_quality' => $config->getQuality()]);
             unset($version);
 
             $versions[$versionName] = $versionFilename;
