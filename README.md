@@ -11,9 +11,7 @@ Simple tool for creating previews of images.
 * Add `"happyproff/kartinki": "*"` to `composer.json`.
 * Run `composer install`
 
-## Usage example
-
-### Simple
+## Simple usage example
 
 For example, `filename.jpg` is 1600x1200.
 
