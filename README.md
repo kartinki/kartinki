@@ -18,6 +18,7 @@ Simple tool for creating previews of images.
 For example, `filename.jpg` is 1600x1200.
 
 ``` php
+<?php
 use happyproff\Kartinki\Kartinki;
 
 $thumbnails = (new Kartinki)->createImageVersions(
@@ -39,6 +40,7 @@ Kartinki will place 3 files to /output/dir:
 
 And $thumbnails will contain:
 ``` php
+<?php
 [
     'square' => '1ceebb2cf4b0425a0ea1e1cb49810a07_square.jpg',
     'normal' => '1ceebb2cf4b0425a0ea1e1cb49810a07_normal.jpg',
