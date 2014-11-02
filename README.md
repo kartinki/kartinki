@@ -4,7 +4,7 @@ Simple tool for creating previews of images.
 
 [![Latest Stable Version](https://poser.pugx.org/happyproff/kartinki/v/stable.svg)](https://packagist.org/packages/happyproff/kartinki)
 [![Build Status](https://travis-ci.org/happyproff/kartinki.svg?branch=master)](https://travis-ci.org/happyproff/kartinki)
-
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/00cfb6a2-1b82-4559-91e4-5e6339e5c327/mini.png)](https://insight.sensiolabs.com/projects/00cfb6a2-1b82-4559-91e4-5e6339e5c327)
 
 ## Installing
 
