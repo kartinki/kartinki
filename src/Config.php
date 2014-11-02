@@ -65,7 +65,7 @@ class Config implements ConfigInterface
         if (!is_int($quality)) {
             throw new InvalidArgumentException('$quality must be int.');
         }
-        if ($quality < 0 or $quality > 100) {
+        if ($quality < 0 || $quality > 100) {
             throw new InvalidArgumentException('$quality must be 0..100.');
         }
 

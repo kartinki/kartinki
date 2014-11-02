@@ -1,5 +1,6 @@
 {
     "name": "happyproff/kartinki",
+    "description": "Simple tool for creating previews of images.",
     "license": "MIT",
     "authors": [
         {

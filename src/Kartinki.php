@@ -40,8 +40,6 @@ class Kartinki
      */
     public function createImageVersions($imagePath, $versionsConfig, $outputDir = null, $imageUniqueName = null)
     {
-        // TODO: check image exists and is_readable
-        // TODO: outputDir is writable
         if ($outputDir === null) {
             $outputDir = $this->outputDir;
         }
