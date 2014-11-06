@@ -23,30 +23,19 @@ class ConfigParser implements ConfigParserInterface
 
         $parts = explode(',', $config);
 
-        /**
-         * thumbnailConfig      DIMENSIONS[:fit]
-         *  DIMENSIONS          WIDTHxHEIGHT
-         */
-        $thumbnailConfigParts = explode(':', $parts[0]);
-        if (count($thumbnailConfigParts) > 2) {
+        $thumbnailConfigParts = [];
+        if (preg_match('#(\d+)x(\d+)(:fit)*#', $parts[0], $thumbnailConfigParts) !== 1) {
             throw new InvalidConfigException('Thumbnail config "' . $parts[0] . '" is incorrect.');
         }
-
-        $thumbnailConfigDimensions = explode('x', $thumbnailConfigParts[0]);
-        if (count($thumbnailConfigDimensions) !== 2) {
-            throw new InvalidConfigException('Thumbnail config dimensions "' . $thumbnailConfigParts[0] . '" is incorrect.');
-        }
-        $configObject->setWidth(intval($thumbnailConfigDimensions[0]));
-        $configObject->setHeight(intval($thumbnailConfigDimensions[1]));
-
-        if (isset($thumbnailConfigParts[1])) {
-            if ($thumbnailConfigParts[1] === 'fit') {
+        $configObject->setWidth(intval($thumbnailConfigParts[1]));
+        $configObject->setHeight(intval($thumbnailConfigParts[2]));
+        if (isset($thumbnailConfigParts[3])) {
+            if ($thumbnailConfigParts[3] === ':fit') {
                 $configObject->setFit(true);
             } else {
-                throw new InvalidConfigException('Thumbnail config modifier "' . $thumbnailConfigParts[1] . '" is incorrect.');
+                throw new InvalidConfigException('Thumbnail config modifier "' . $thumbnailConfigParts[2] . '" is incorrect. ');
             }
         }
-
 
         if (count($parts) > 1) {
             foreach (array_slice($parts, 1) as $parameter) {
