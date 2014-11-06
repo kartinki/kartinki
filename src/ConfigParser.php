@@ -54,24 +54,23 @@ class ConfigParser implements ConfigParserInterface
      * @param ConfigInterface $configObject
      * @param $parametersConfig
      */
-    protected function setParameters (ConfigInterface $configObject, $parametersConfig) {
-
+    protected function setParameters(ConfigInterface $configObject, $parametersConfig)
+    {
         foreach ($parametersConfig as $parameter) {
-                $parameterParts = explode('=', $parameter);
-                $parameterName = $parameterParts[0];
-                $parameterValue = array_key_exists(1, $parameterParts) ? $parameterParts[1] : null;
-                switch ($parameterName) {
-                    case 'quality':
-                        if ($parameterValue === null) {
-                            throw new InvalidConfigException('Quality value "' . $parameterValue . '" is incorrect.');
-                        } else {
-                            $configObject->setQuality(intval($parameterValue));
-                        }
-                        break;
-                    default:
-                        throw new InvalidConfigException('Parameter "' . $parameterName . '" is incorrect.');
-                }
+            $parameterParts = explode('=', $parameter);
+            $parameterName = $parameterParts[0];
+            $parameterValue = array_key_exists(1, $parameterParts) ? $parameterParts[1] : null;
+            switch ($parameterName) {
+                case 'quality':
+                    if ($parameterValue === null) {
+                        throw new InvalidConfigException('Quality value "' . $parameterValue . '" is incorrect.');
+                    } else {
+                        $configObject->setQuality(intval($parameterValue));
+                    }
+                    break;
+                default:
+                    throw new InvalidConfigException('Parameter "' . $parameterName . '" is incorrect.');
             }
-
+        }
     }
 }
