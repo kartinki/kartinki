@@ -52,7 +52,6 @@ class Kartinki
         $imageExt = pathinfo($imagePath, PATHINFO_EXTENSION);
 
         foreach ($versionsConfig as $versionName => $versionConfig) {
-            $config = null;
             if (is_string($versionConfig)) {
                 $config = $this->configParser->parse($versionConfig);
             } elseif  ($versionConfig instanceof ConfigInterface) {
