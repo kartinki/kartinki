@@ -13,6 +13,25 @@ class Config implements ConfigInterface
     protected $fit;
     protected $quality;
 
+    public function __construct($width = 0, $height = 0)
+    {
+        $this->width = $width;
+        $this->height = $height;
+        $this->quality = self::DEFAULT_QUALITY;
+    }
+
+    /**
+     * @param array
+     */
+    public static function createFromArray(array $params)
+    {
+        $config = new self;
+        if (isset($params['width'])) $config->setWidth($params['width']);
+        if (isset($params['height'])) $config->setHeight($params['height']);
+        if (isset($params['fit'])) $config->setFit($params['fit']);
+        if (isset($params['quality'])) $config->setQuality($params['quality']);
+    }
+
     public function getWidth()
     {
         return $this->width;
@@ -25,6 +44,8 @@ class Config implements ConfigInterface
         }
 
         $this->width = $width;
+
+        return $this;
     }
 
     public function getHeight()
@@ -39,6 +60,8 @@ class Config implements ConfigInterface
         }
 
         $this->height = $height;
+
+        return $this;
     }
 
     public function isFit()
@@ -53,6 +76,8 @@ class Config implements ConfigInterface
         }
 
         $this->fit = $fit;
+
+        return $this;
     }
 
     public function getQuality()
@@ -74,5 +99,7 @@ class Config implements ConfigInterface
         }
 
         $this->quality = $quality;
+
+        return $this;
     }
 }

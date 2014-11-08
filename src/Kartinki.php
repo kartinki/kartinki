@@ -32,7 +32,7 @@ class Kartinki
 
     /**
      * @param string $imagePath
-     * @param string[] $versionsConfig
+     * @param string[]|ConfigInterface[] $versionsConfig
      * @param string $outputDir
      * @param string $imageUniqueName
      *
@@ -51,9 +51,17 @@ class Kartinki
         $imageExt = pathinfo($imagePath, PATHINFO_EXTENSION);
 
         foreach ($versionsConfig as $versionName => $versionConfig) {
+            $config = null;
+            if (is_string($versionConfig)) {
+                $config = $this->configParser->parse($versionConfig);
+            } elseif  ($versionConfig instanceof ConfigInterface) {
+                $config = $versionConfig;
+            } else {
+                throw new InvalidConfigException('Config must be a string or ConfigInterface.');
+            }
+
             $versionFilename = $imageUniqueName . self::NAME_SEPARATOR . $versionName . '.' . $imageExt;
             $image = $this->processor->read(fopen($imagePath, 'r'));
-            $config = $this->configParser->parse($versionConfig);
 
             $version = $this->createImageVersion($image, $config);
             $version->save($outputDir . '/' . $versionFilename, ['jpeg_quality' => $config->getQuality()]);

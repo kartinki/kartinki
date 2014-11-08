@@ -2,6 +2,8 @@
 
 namespace happyproff\Kartinki;
 
+use happyproff\Kartinki\Interfaces\ConfigInterface;
+
 class KartinkiTest extends \PHPUnit_Framework_TestCase
 {
     private static $assetsDir;
@@ -18,6 +20,53 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
         $this->_testImage('big-horizontal.jpg');
         $this->_testImage('big-vertical.jpg');
         $this->_testImage('small-horizontal.png');
+    }
+
+    public function testManuallyCreatedConfigs()
+    {
+        $versionConfig = new Config;
+        $versionConfig->setWidth(400);
+        $versionConfig->setHeight(400);
+        $versionConfig->setFit(true);
+        $this->_testManuallyCreatedConfig($versionConfig);
+
+        $versionConfig = (new Config)->setWidth(400)->setHeight(400)->setFit(true);
+        $this->_testManuallyCreatedConfig($versionConfig);
+
+        $versionConfigArry = Config::createFromArray([
+            'width' => 400,
+            'height' => 400,
+            'fit' => true,
+        ]);
+        $this->_testManuallyCreatedConfig($versionConfig);
+
+        $versionConfig = (new ConfigParser)->parse('400x400:fit');
+        $this->_testManuallyCreatedConfig($versionConfig);
+
+        $versionConfig = new Config(400, 400);
+        $versionConfig->setFit(true);
+        $this->_testManuallyCreatedConfig($versionConfig);
+    }
+
+    private function _testManuallyCreatedConfig(ConfigInterface $versionConfig) {
+        $this->prepareTempDir();
+
+        $versionsConfig = [
+            'big' => $versionConfig,
+        ];
+
+        $imagePath = self::$assetsDir . '/big-horizontal.jpg';
+
+        $kartinki = new Kartinki;
+        $result = $kartinki->createImageVersions($imagePath, $versionsConfig, self::$tempDir);
+
+        $this->assertArrayHasKey('big', $result);
+        $this->assertFileExists(self::$tempDir . '/' . $result['big']);
+        list($width, $height) = getimagesize(self::$tempDir . '/' . $result['big']);
+        $this->assertEquals(400, $width);
+        $this->assertEquals(225, $height);
+
+        $this->removeTempDir();
     }
 
     private function prepareTempDir()
