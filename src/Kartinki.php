@@ -3,6 +3,7 @@
 namespace happyproff\Kartinki;
 
 use happyproff\Kartinki\Interfaces\ConfigInterface;
+use happyproff\Kartinki\Exceptions\InvalidConfigException;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
