@@ -46,3 +46,4 @@ And $thumbnails will contain:
     'big'    => '1ceebb2cf4b0425a0ea1e1cb49810a07_big.jpg'
 ]
 ```
+
