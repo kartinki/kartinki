@@ -54,7 +54,7 @@ class Kartinki
         foreach ($versionsConfig as $versionName => $versionConfig) {
             if (is_string($versionConfig)) {
                 $config = $this->configParser->parse($versionConfig);
-            } elseif  ($versionConfig instanceof ConfigInterface) {
+            } elseif ($versionConfig instanceof ConfigInterface) {
                 $config = $versionConfig;
             } else {
                 throw new InvalidConfigException('Config must be a string or ConfigInterface.');
@@ -91,8 +91,10 @@ class Kartinki
             $height = PHP_INT_MAX;
         }
 
-        $image = $image->thumbnail(new Box($width, $height),
-            $versionConfig->isFit() ? ImageInterface::THUMBNAIL_INSET : ImageInterface::THUMBNAIL_OUTBOUND);
+        $image = $image->thumbnail(
+            new Box($width, $height),
+            $versionConfig->isFit() ? ImageInterface::THUMBNAIL_INSET : ImageInterface::THUMBNAIL_OUTBOUND
+        );
 
         return $image;
     }

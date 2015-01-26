@@ -45,7 +45,9 @@ class ConfigParser implements ConfigParserInterface
             if ($thumbnailConfigParts[3] === ':fit') {
                 $configObject->setFit(true);
             } else {
-                throw new InvalidConfigException('Thumbnail config modifier "' . $thumbnailConfigParts[2] . '" is incorrect. ');
+                throw new InvalidConfigException(
+                    'Thumbnail config modifier "' . $thumbnailConfigParts[2] . '" is incorrect. '
+                );
             }
         }
     }

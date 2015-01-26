@@ -26,10 +26,18 @@ class Config implements ConfigInterface
     public static function createFromArray(array $params)
     {
         $config = new self;
-        if (isset($params['width'])) $config->setWidth($params['width']);
-        if (isset($params['height'])) $config->setHeight($params['height']);
-        if (isset($params['fit'])) $config->setFit($params['fit']);
-        if (isset($params['quality'])) $config->setQuality($params['quality']);
+        if (isset($params['width'])) {
+            $config->setWidth($params['width']);
+        }
+        if (isset($params['height'])) {
+            $config->setHeight($params['height']);
+        }
+        if (isset($params['fit'])) {
+            $config->setFit($params['fit']);
+        }
+        if (isset($params['quality'])) {
+            $config->setQuality($params['quality']);
+        }
     }
 
     public function getWidth()
