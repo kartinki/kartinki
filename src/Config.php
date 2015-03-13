@@ -48,7 +48,7 @@ class Config implements ConfigInterface
     public function setWidth($width)
     {
         if (!is_int($width)) {
-            throw new InvalidArgumentException('$width must be int.');
+            throw new InvalidArgumentException('$width must be an int.');
         }
 
         $this->width = $width;
@@ -64,7 +64,7 @@ class Config implements ConfigInterface
     public function setHeight($height)
     {
         if (!is_int($height)) {
-            throw new InvalidArgumentException('$height must be int.');
+            throw new InvalidArgumentException('$height must be an int.');
         }
 
         $this->height = $height;
@@ -80,7 +80,7 @@ class Config implements ConfigInterface
     public function setFit($fit)
     {
         if (!is_bool($fit)) {
-            throw new InvalidArgumentException('$fit must be bool.');
+            throw new InvalidArgumentException('$fit must be a bool.');
         }
 
         $this->fit = $fit;
@@ -96,7 +96,7 @@ class Config implements ConfigInterface
     public function setQuality($quality)
     {
         if (!is_int($quality)) {
-            throw new InvalidArgumentException('$quality must be int.');
+            throw new InvalidArgumentException('$quality must be an int.');
         }
         if ($quality < 0 || $quality > 100) {
             throw new InvalidArgumentException('$quality must be 0..100.');

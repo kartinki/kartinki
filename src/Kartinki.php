@@ -3,6 +3,8 @@
 namespace happyproff\Kartinki;
 
 use happyproff\Kartinki\Interfaces\ConfigInterface;
+use happyproff\Kartinki\Interfaces\ConfigParserInterface;
+use happyproff\Kartinki\Exceptions\InvalidArgumentException;
 use happyproff\Kartinki\Exceptions\InvalidConfigException;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
@@ -27,6 +29,9 @@ class Kartinki
 
     public function __construct(ImagineInterface $imagine = null, $configParser = null)
     {
+        if ($configParser !== null and !($configParser instanceof ConfigParserInterface)) {
+            throw new InvalidArgumentException('$configParser must implement happyproff\Kartinki\Interfaces\ConfigParserInterface.');
+        }
         $this->processor = $imagine ?: new Imagine;
         $this->configParser = $configParser ?: new ConfigParser;
     }
@@ -57,7 +62,7 @@ class Kartinki
             } elseif ($versionConfig instanceof ConfigInterface) {
                 $config = $versionConfig;
             } else {
-                throw new InvalidConfigException('Config must be a string or ConfigInterface.');
+                throw new InvalidConfigException('Config must be a string or implement happyproff\Kartinki\Interfaces\ConfigInterface.');
             }
 
             $versionFilename = $imageUniqueName . self::NAME_SEPARATOR . $versionName . '.' . $imageExt;
