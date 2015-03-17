@@ -29,7 +29,7 @@ class Kartinki
 
     public function __construct(ImagineInterface $imagine = null, $configParser = null)
     {
-        if ($configParser !== null and !($configParser instanceof ConfigParserInterface)) {
+        if ($configParser !== null && !($configParser instanceof ConfigParserInterface)) {
             throw new InvalidArgumentException('$configParser must implement happyproff\Kartinki\Interfaces\ConfigParserInterface.');
         }
         $this->processor = $imagine ?: new Imagine;
