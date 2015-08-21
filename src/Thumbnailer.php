@@ -8,7 +8,6 @@ use kartinki\Kartinki\Exceptions\FileIsNotReadable;
 use kartinki\Kartinki\Exceptions\OutputDirectoryIsNotWritable;
 use kartinki\Kartinki\Exceptions\InvalidArgumentException;
 use kartinki\Kartinki\Exceptions\FileNotFoundException;
-use kartinki\Kartinki\Exceptions\InvalidPresetException;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
@@ -64,7 +63,7 @@ class Thumbnailer
         }
         if (is_null($imageUniqueName)) {
             $imageUniqueName = $this->getUniqueName($imagePath);
-        } elseif (!is_string($imageUniqueName) and !(is_object($imageUniqueName) and method_exists($imageUniqueName, '__toString'))) {
+        } elseif (!is_string($imageUniqueName) && !(is_object($imageUniqueName) && method_exists($imageUniqueName, '__toString'))) {
             throw new InvalidArgumentException("$imageUniqueName must be a string.");
         }
 
