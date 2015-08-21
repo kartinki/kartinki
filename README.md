@@ -2,10 +2,11 @@
 
 Simple tool for generating image thumbnails.
 
-[![Latest Stable Version](https://poser.pugx.org/kartinki/kartinki/v/stable.svg)](https://packagist.org/packages/kartinki/kartinki)
+[![Latest Stable Version](https://poser.pugx.org/kartinki/kartinki/v/stable)](https://packagist.org/packages/kartinki/kartinki)
 [![Build Status](https://travis-ci.org/kartinki/kartinki.svg?branch=master)](https://travis-ci.org/kartinki/kartinki)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kartinki/kartinki/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kartinki/kartinki/?branch=master)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/00cfb6a2-1b82-4559-91e4-5e6339e5c327/mini.png)](https://insight.sensiolabs.com/projects/00cfb6a2-1b82-4559-91e4-5e6339e5c327)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/3d8342cd-c351-4d95-9278-c582dd64948e/mini.png)](https://insight.sensiolabs.com/projects/3d8342cd-c351-4d95-9278-c582dd64948e)
+[![License](https://poser.pugx.org/kartinki/kartinki/license)](https://packagist.org/packages/kartinki/kartinki)
 
 ## Installing
 
