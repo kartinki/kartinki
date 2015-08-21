@@ -2,16 +2,16 @@
 
 namespace kartinki\Kartinki;
 
-use kartinki\Kartinki\Interfaces\PresetInterface;
-use kartinki\Kartinki\Interfaces\PresetParserInterface;
-use kartinki\Kartinki\Exceptions\FileIsNotReadable;
-use kartinki\Kartinki\Exceptions\OutputDirectoryIsNotWritable;
-use kartinki\Kartinki\Exceptions\InvalidArgumentException;
-use kartinki\Kartinki\Exceptions\FileNotFoundException;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;
+use kartinki\Kartinki\Exceptions\DirectoryIsNotWritableException;
+use kartinki\Kartinki\Exceptions\FileIsNotReadableException;
+use kartinki\Kartinki\Exceptions\FileNotFoundException;
+use kartinki\Kartinki\Exceptions\InvalidArgumentException;
+use kartinki\Kartinki\Interfaces\PresetInterface;
+use kartinki\Kartinki\Interfaces\PresetParserInterface;
 
 class Thumbnailer
 {
@@ -53,13 +53,13 @@ class Thumbnailer
             throw new FileNotFoundException("File '{$imagePath}' not exists.");
         }
         if (!is_readable($imagePath)) {
-            throw new FileIsNotReadable("File '{$imagePath}' is not readable.");
+            throw new FileIsNotReadableException("File '{$imagePath}' is not readable.");
         }
         if (is_null($outputDir)) {
             $outputDir = $this->outputDir ? $this->outputDir : realpath(dirname($imagePath));
         }
         if (!is_writable($outputDir)) {
-            throw new OutputDirectoryIsNotWritable("Ouput directory '{$outputDir}' is not writable.");
+            throw new DirectoryIsNotWritableException("Ouput directory '{$outputDir}' is not writable.");
         }
         if (is_null($imageUniqueName)) {
             $imageUniqueName = $this->getUniqueName($imagePath);

@@ -96,6 +96,28 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
         $this->removeTempDir();
     }
 
+    /**
+     * @expectedException kartinki\Kartinki\Exceptions\FileNotFoundException
+     */
+    public function testFileNotExistsException () {
+        $this->prepareTempDir();
+
+        (new Thumbnailer)->createThumbnails('unknown file.jpg', ['big' => '800x600:fit']);
+
+        $this->removeTempDir();
+    }
+
+    /**
+     * @expectedException kartinki\Kartinki\Exceptions\DirectoryIsNotWritableException
+     */
+    public function testDirectoryIsNotWritableException () {
+        $this->prepareTempDir();
+
+        (new Thumbnailer)->createThumbnails(self::$assetsDir . '/big-horizontal.jpg', ['big' => '800x600:fit'], dirname(__FILE__) . '/unknown_dir');
+
+        $this->removeTempDir();
+    }
+
     private function _testManuallyCreatedPreset(PresetInterface $preset)
     {
         $this->prepareTempDir();
