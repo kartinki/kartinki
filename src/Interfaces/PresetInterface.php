@@ -2,7 +2,7 @@
 
 namespace happyproff\Kartinki\Interfaces;
 
-interface ConfigInterface
+interface PresetInterface
 {
     /**
      * @return int
