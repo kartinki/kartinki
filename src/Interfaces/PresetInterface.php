@@ -1,6 +1,6 @@
 <?php
 
-namespace happyproff\Kartinki\Interfaces;
+namespace kartinki\Kartinki\Interfaces;
 
 interface PresetInterface
 {

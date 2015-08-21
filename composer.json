@@ -1,5 +1,5 @@
 {
-    "name": "happyproff/kartinki",
+    "name": "kartinki/kartinki",
     "description": "Simple tool for creating previews of images.",
     "license": "MIT",
     "authors": [
@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "happyproff\\Kartinki\\": "src/"
+            "kartinki\\Kartinki\\": "src/"
         }
     },
     "require": {

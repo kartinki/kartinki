@@ -1,8 +1,8 @@
 <?php
 
-namespace happyproff\Kartinki;
+namespace kartinki\Kartinki;
 
-use happyproff\Kartinki\Interfaces\PresetInterface;
+use kartinki\Kartinki\Interfaces\PresetInterface;
 
 class KartinkiTest extends \PHPUnit_Framework_TestCase
 {

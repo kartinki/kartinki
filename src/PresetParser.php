@@ -1,10 +1,10 @@
 <?php
 
-namespace happyproff\Kartinki;
+namespace kartinki\Kartinki;
 
-use happyproff\Kartinki\Interfaces\PresetInterface;
-use happyproff\Kartinki\Interfaces\PresetParserInterface;
-use happyproff\Kartinki\Exceptions\InvalidPresetException;
+use kartinki\Kartinki\Interfaces\PresetInterface;
+use kartinki\Kartinki\Interfaces\PresetParserInterface;
+use kartinki\Kartinki\Exceptions\InvalidPresetException;
 
 class PresetParser implements PresetParserInterface
 {

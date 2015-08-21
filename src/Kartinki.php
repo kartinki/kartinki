@@ -1,14 +1,14 @@
 <?php
 
-namespace happyproff\Kartinki;
+namespace kartinki\Kartinki;
 
-use happyproff\Kartinki\Interfaces\PresetInterface;
-use happyproff\Kartinki\Interfaces\PresetParserInterface;
-use happyproff\Kartinki\Exceptions\FileIsNotReadable;
-use happyproff\Kartinki\Exceptions\OutputDirectoryIsNotWritable;
-use happyproff\Kartinki\Exceptions\InvalidArgumentException;
-use happyproff\Kartinki\Exceptions\FileNotFoundException;
-use happyproff\Kartinki\Exceptions\InvalidPresetException;
+use kartinki\Kartinki\Interfaces\PresetInterface;
+use kartinki\Kartinki\Interfaces\PresetParserInterface;
+use kartinki\Kartinki\Exceptions\FileIsNotReadable;
+use kartinki\Kartinki\Exceptions\OutputDirectoryIsNotWritable;
+use kartinki\Kartinki\Exceptions\InvalidArgumentException;
+use kartinki\Kartinki\Exceptions\FileNotFoundException;
+use kartinki\Kartinki\Exceptions\InvalidPresetException;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
@@ -34,7 +34,7 @@ class Kartinki
     public function __construct(ImagineInterface $imagine = null, $presetParser = null)
     {
         if ($presetParser !== null && !($presetParser instanceof PresetParserInterface)) {
-            throw new InvalidArgumentException('$presetParser must implement happyproff\Kartinki\Interfaces\PresetParserInterface.');
+            throw new InvalidArgumentException('$presetParser must implement kartinki\Kartinki\Interfaces\PresetParserInterface.');
         }
         $this->processor = $imagine ?: new Imagine;
         $this->presetParser = $presetParser ?: new PresetParser;
@@ -77,7 +77,7 @@ class Kartinki
             } elseif ($preset instanceof PresetInterface) {
                 $parsedPreset = $preset;
             } else {
-                throw new InvalidArgumentException('Preset must be a string or implements happyproff\Kartinki\Interfaces\PresetInterface.');
+                throw new InvalidArgumentException('Preset must be a string or implements kartinki\Kartinki\Interfaces\PresetInterface.');
             }
 
             $thumbnailFilename = $imageUniqueName . self::NAME_SEPARATOR . $presetName . '.' . $imageExt;

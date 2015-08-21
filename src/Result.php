@@ -1,6 +1,6 @@
 <?php
 
-namespace happyproff\Kartinki;
+namespace kartinki\Kartinki;
 
 class Result
 {

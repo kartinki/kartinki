@@ -1,9 +1,9 @@
 <?php
 
-namespace happyproff\Kartinki;
+namespace kartinki\Kartinki;
 
-use happyproff\Kartinki\Interfaces\PresetInterface;
-use happyproff\Kartinki\Exceptions\InvalidArgumentException;
+use kartinki\Kartinki\Interfaces\PresetInterface;
+use kartinki\Kartinki\Exceptions\InvalidArgumentException;
 
 class Preset implements PresetInterface
 {
