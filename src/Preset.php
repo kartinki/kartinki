@@ -1,13 +1,14 @@
 <?php
 
-namespace happyproff\Kartinki;
+namespace kartinki\Kartinki;
 
-use happyproff\Kartinki\Exceptions\InvalidArgumentException;
-use happyproff\Kartinki\Interfaces\ConfigInterface;
+use kartinki\Kartinki\Interfaces\PresetInterface;
+use kartinki\Kartinki\Exceptions\InvalidArgumentException;
 
-class Config implements ConfigInterface
+class Preset implements PresetInterface
 {
     const DEFAULT_QUALITY = 85;
+
     protected $width;
     protected $height;
     protected $fit;
@@ -22,22 +23,26 @@ class Config implements ConfigInterface
 
     /**
      * @param array
+     *
+     * @return static
      */
     public static function createFromArray(array $params)
     {
-        $config = new self;
+        $preset = new self;
         if (isset($params['width'])) {
-            $config->setWidth($params['width']);
+            $preset->setWidth($params['width']);
         }
         if (isset($params['height'])) {
-            $config->setHeight($params['height']);
+            $preset->setHeight($params['height']);
         }
         if (isset($params['fit'])) {
-            $config->setFit($params['fit']);
+            $preset->setFit($params['fit']);
         }
         if (isset($params['quality'])) {
-            $config->setQuality($params['quality']);
+            $preset->setQuality($params['quality']);
         }
+
+        return $preset;
     }
 
     public function getWidth()

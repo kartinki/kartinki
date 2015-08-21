@@ -1,11 +1,14 @@
 <?php
 
-namespace happyproff\Kartinki;
+namespace kartinki\Kartinki;
 
-use happyproff\Kartinki\Interfaces\ConfigInterface;
-use happyproff\Kartinki\Interfaces\ConfigParserInterface;
-use happyproff\Kartinki\Exceptions\InvalidArgumentException;
-use happyproff\Kartinki\Exceptions\InvalidConfigException;
+use kartinki\Kartinki\Interfaces\PresetInterface;
+use kartinki\Kartinki\Interfaces\PresetParserInterface;
+use kartinki\Kartinki\Exceptions\FileIsNotReadable;
+use kartinki\Kartinki\Exceptions\OutputDirectoryIsNotWritable;
+use kartinki\Kartinki\Exceptions\InvalidArgumentException;
+use kartinki\Kartinki\Exceptions\FileNotFoundException;
+use kartinki\Kartinki\Exceptions\InvalidPresetException;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
@@ -14,6 +17,7 @@ use Imagine\Image\ImagineInterface;
 class Kartinki
 {
     const NAME_SEPARATOR = '_';
+
     /**
      * @var string
      */
@@ -23,82 +27,95 @@ class Kartinki
      */
     protected $processor;
     /**
-     * @var ConfigParser
+     * @var PresetParser
      */
-    protected $configParser;
+    protected $presetParser;
 
-    public function __construct(ImagineInterface $imagine = null, $configParser = null)
+    public function __construct(ImagineInterface $imagine = null, $presetParser = null)
     {
-        if ($configParser !== null && !($configParser instanceof ConfigParserInterface)) {
-            throw new InvalidArgumentException('$configParser must implement happyproff\Kartinki\Interfaces\ConfigParserInterface.');
+        if ($presetParser !== null && !($presetParser instanceof PresetParserInterface)) {
+            throw new InvalidArgumentException('$presetParser must implement kartinki\Kartinki\Interfaces\PresetParserInterface.');
         }
         $this->processor = $imagine ?: new Imagine;
-        $this->configParser = $configParser ?: new ConfigParser;
+        $this->presetParser = $presetParser ?: new PresetParser;
     }
 
     /**
      * @param string $imagePath
-     * @param string[]|ConfigInterface[] $versionsConfig
+     * @param string[]|PresetInterface[] $presets
      * @param string $outputDir
      * @param string $imageUniqueName
      *
-     * @return string[]
+     * @return Result
      */
-    public function createImageVersions($imagePath, $versionsConfig, $outputDir = null, $imageUniqueName = null)
+    public function createThumbnails($imagePath, $presets, $outputDir = null, $imageUniqueName = null)
     {
-        if ($outputDir === null) {
-            $outputDir = $this->outputDir;
+        if (!file_exists($imagePath)) {
+            throw new FileNotFoundException("File '{$imagePath}' not exists.");
         }
-        if ($imageUniqueName === null) {
+        if (!is_readable($imagePath)) {
+            throw new FileIsNotReadable("File '{$imagePath}' is not readable.");
+        }
+        if (is_null($outputDir)) {
+            $outputDir = $this->outputDir ? $this->outputDir : realpath(dirname($imagePath));
+        }
+        if (!is_writable($outputDir)) {
+            throw new OutputDirectoryIsNotWritable("Ouput directory '{$outputDir}' is not writable.");
+        }
+        if (is_null($imageUniqueName)) {
             $imageUniqueName = $this->getUniqueName($imagePath);
+        } elseif (!is_string($imageUniqueName) and !(is_object($imageUniqueName) and method_exists($imageUniqueName, '__toString'))) {
+            throw new InvalidArgumentException("$imageUniqueName must be a string.");
         }
 
-        $versions = [];
+        $thumbnails = [];
         $imageExt = pathinfo($imagePath, PATHINFO_EXTENSION);
 
-        foreach ($versionsConfig as $versionName => $versionConfig) {
-            if (is_string($versionConfig)) {
-                $config = $this->configParser->parse($versionConfig);
-            } elseif ($versionConfig instanceof ConfigInterface) {
-                $config = $versionConfig;
+        foreach ($presets as $presetName => $preset) {
+            if (is_string($preset)) {
+                $parsedPreset = $this->presetParser->parse($preset);
+            } elseif ($preset instanceof PresetInterface) {
+                $parsedPreset = $preset;
             } else {
-                throw new InvalidConfigException('Config must be a string or implement happyproff\Kartinki\Interfaces\ConfigInterface.');
+                throw new InvalidArgumentException('Preset must be a string or implements kartinki\Kartinki\Interfaces\PresetInterface.');
             }
 
-            $versionFilename = $imageUniqueName . self::NAME_SEPARATOR . $versionName . '.' . $imageExt;
+            $thumbnailFilename = $imageUniqueName . self::NAME_SEPARATOR . $presetName . '.' . $imageExt;
             $image = $this->processor->read(fopen($imagePath, 'r'));
 
-            $version = $this->createImageVersion($image, $config);
-            $version->save($outputDir . '/' . $versionFilename, ['jpeg_quality' => $config->getQuality()]);
-            unset($version);
+            $thumbnail = $this->createImageThumbnail($image, $parsedPreset);
+            $thumbnail->save($outputDir . '/' . $thumbnailFilename, ['jpeg_quality' => $parsedPreset->getQuality()]);
+            unset($thumbnail);
 
-            $versions[$versionName] = $versionFilename;
+            $thumbnails[$presetName] = $thumbnailFilename;
         }
 
-        return $versions;
+        $result = new Result($imageUniqueName, $imageExt, $thumbnails);
+
+        return $result;
     }
 
     /**
      * @param ImageInterface $image
-     * @param ConfigInterface $versionConfig
+     * @param PresetInterface $preset
      *
      * @return ImageInterface
      */
-    protected function createImageVersion(ImageInterface $image, ConfigInterface $versionConfig)
+    protected function createImageThumbnail(ImageInterface $image, PresetInterface $preset)
     {
-        $width = $versionConfig->getWidth();
+        $width = $preset->getWidth();
         if ($width === 0) {
             $width = PHP_INT_MAX;
         }
 
-        $height = $versionConfig->getHeight();
+        $height = $preset->getHeight();
         if ($height === 0) {
             $height = PHP_INT_MAX;
         }
 
         $image = $image->thumbnail(
             new Box($width, $height),
-            $versionConfig->isFit() ? ImageInterface::THUMBNAIL_INSET : ImageInterface::THUMBNAIL_OUTBOUND
+            $preset->isFit() ? ImageInterface::THUMBNAIL_INSET : ImageInterface::THUMBNAIL_OUTBOUND
         );
 
         return $image;

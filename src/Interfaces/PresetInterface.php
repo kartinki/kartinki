@@ -1,8 +1,8 @@
 <?php
 
-namespace happyproff\Kartinki\Interfaces;
+namespace kartinki\Kartinki\Interfaces;
 
-interface ConfigInterface
+interface PresetInterface
 {
     /**
      * @return int

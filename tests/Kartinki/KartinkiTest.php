@@ -1,8 +1,8 @@
 <?php
 
-namespace happyproff\Kartinki;
+namespace kartinki\Kartinki;
 
-use happyproff\Kartinki\Interfaces\ConfigInterface;
+use kartinki\Kartinki\Interfaces\PresetInterface;
 
 class KartinkiTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,116 +15,163 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
         self::$tempDir = self::$assetsDir . '/tmp';
     }
 
-    public function testVersionsCreating()
+    public function testThumbnailsCreating()
     {
         $this->_testImage('big-horizontal.jpg');
         $this->_testImage('big-vertical.jpg');
         $this->_testImage('small-horizontal.png');
     }
 
-    public function testManuallyCreatedConfigs()
+    public function testManuallyCreatedPresets()
     {
-        $versionConfig = new Config;
-        $versionConfig->setWidth(400);
-        $versionConfig->setHeight(400);
-        $versionConfig->setFit(true);
-        $this->_testManuallyCreatedConfig($versionConfig);
+        $preset = new Preset;
+        $preset->setWidth(400);
+        $preset->setHeight(400);
+        $preset->setFit(true);
+        $this->_testManuallyCreatedPreset($preset);
 
-        $versionConfig = (new Config)->setWidth(400)->setHeight(400)->setFit(true);
-        $this->_testManuallyCreatedConfig($versionConfig);
+        $preset = (new Preset)->setWidth(400)->setHeight(400)->setFit(true);
+        $this->_testManuallyCreatedPreset($preset);
 
-        $versionConfigArry = Config::createFromArray([
+        $preset = Preset::createFromArray([
             'width' => 400,
             'height' => 400,
             'fit' => true,
         ]);
-        $this->_testManuallyCreatedConfig($versionConfig);
+        $this->_testManuallyCreatedPreset($preset);
 
-        $versionConfig = (new ConfigParser)->parse('400x400:fit');
-        $this->_testManuallyCreatedConfig($versionConfig);
+        $preset = (new PresetParser)->parse('400x400:fit');
+        $this->_testManuallyCreatedPreset($preset);
 
-        $versionConfig = new Config(400, 400);
-        $versionConfig->setFit(true);
-        $this->_testManuallyCreatedConfig($versionConfig);
+        $preset = new Preset(400, 400);
+        $preset->setFit(true);
+        $this->_testManuallyCreatedPreset($preset);
     }
 
-    private function _testManuallyCreatedConfig(ConfigInterface $versionConfig) {
+    public function testCustomOutputDirectory()
+    {
+        $customTempDir = self::$tempDir . '_custom';
+        $this->prepareTempDir($customTempDir);
+
+        $result = (new Kartinki)->createThumbnails(
+            self::$assetsDir . '/big-vertical.jpg',
+            [
+                'big' => '800x600:fit',
+                'small' => '150x150',
+            ],
+            $customTempDir
+        );
+
+        foreach ($result->getThumbnails() as $filename) {
+            $filepath = $customTempDir . '/' . $filename;
+            $this->assertFileExists($filepath);
+        }
+
+        $this->removeTempDir($customTempDir);
+    }
+
+    public function testIdAndExtensionInResult()
+    {
         $this->prepareTempDir();
 
-        $versionsConfig = [
-            'big' => $versionConfig,
+        $result = (new Kartinki)->createThumbnails(
+            self::$assetsDir . '/big-vertical.jpg',
+            [
+                'big' => '800x600:fit',
+                'small' => '150x150',
+            ],
+            self::$tempDir
+        );
+
+        $filename = $result->getThumbnails()['big'];
+        $expectedId = str_replace('_big.jpg', '', $filename);
+        $expectedExt = pathinfo($filename, PATHINFO_EXTENSION);
+
+        $this->assertEquals($expectedId, $result->getId());
+        $this->assertEquals($expectedExt, $result->getExt());
+
+        $this->removeTempDir();
+    }
+
+    private function _testManuallyCreatedPreset(PresetInterface $preset)
+    {
+        $this->prepareTempDir();
+
+        $presets = [
+            'big' => $preset,
         ];
 
         $imagePath = self::$assetsDir . '/big-horizontal.jpg';
 
         $kartinki = new Kartinki;
-        $result = $kartinki->createImageVersions($imagePath, $versionsConfig, self::$tempDir);
+        $result = $kartinki->createThumbnails($imagePath, $presets, self::$tempDir);
 
-        $this->assertArrayHasKey('big', $result);
-        $this->assertFileExists(self::$tempDir . '/' . $result['big']);
-        list($width, $height) = getimagesize(self::$tempDir . '/' . $result['big']);
+        $this->assertArrayHasKey('big', $result->getThumbnails());
+        $this->assertFileExists(self::$tempDir . '/' . $result->getThumbnails()['big']);
+        list($width, $height) = getimagesize(self::$tempDir . '/' . $result->getThumbnails()['big']);
         $this->assertEquals(400, $width);
         $this->assertEquals(225, $height);
 
         $this->removeTempDir();
     }
 
-    private function prepareTempDir()
+    private function prepareTempDir($tempDir = null)
     {
-        if (is_dir(self::$tempDir)) {
-            $this->removeTempDir();
+        if (is_null($tempDir)) $tempDir = self::$tempDir;
+        if (is_dir($tempDir)) {
+            $this->removeTempDir($tempDir);
         }
-        mkdir(self::$tempDir);
+        mkdir($tempDir);
     }
 
-    private function removeTempDir()
+    private function removeTempDir($tempDir = null)
     {
-        foreach (scandir(self::$tempDir) as $file) {
+        if (is_null($tempDir)) $tempDir = self::$tempDir;
+        foreach (scandir($tempDir) as $file) {
             if (in_array($file, ['.', '..'])) {
                 continue;
             }
-            unlink(self::$tempDir . '/' . $file);
+            unlink($tempDir . '/' . $file);
         }
-        rmdir(self::$tempDir);
+        rmdir($tempDir);
     }
 
     private function _testImage($imageName)
     {
         $this->prepareTempDir();
 
-        $versions = [
+        $presetsArray = [
             'thumb' => ['width' => 200, 'height' => 200, 'fit' => false, 'quality' => 10],
             'vertical' => ['width' => 200, 'height' => 0, 'fit' => false],
             'horizontal' => ['width' => 0, 'height' => 200, 'fit' => false],
             'big' => ['width' => 400, 'height' => 400, 'fit' => true],
             'orig' => ['width' => 0, 'height' => 0, 'fit' => false],
         ];
-        $versionsConfig = array_map(function ($value) {
+        $presets = array_map(function ($value) {
             return $value['width'] . 'x' . $value['height'] . ($value['fit'] ? ':fit' : '') . (isset($value['quality']) ? ',quality=' . $value['quality'] : '');
-        }, $versions);
-
+        }, $presetsArray);
 
         $imagePath = self::$assetsDir . '/' . $imageName;
         list($initialWidth, $initialHeight) = getimagesize($imagePath);
 
         $kartinki = new Kartinki;
-        $result = $kartinki->createImageVersions($imagePath, $versionsConfig, self::$tempDir);
-        foreach ($versions as $versionName => $versionConfig) {
-            $this->assertArrayHasKey($versionName, $result);
-            $this->assertFileExists(self::$tempDir . '/' . $result[$versionName]);
-            list($width, $height) = getimagesize(self::$tempDir . '/' . $result[$versionName]);
+        $result = $kartinki->createThumbnails($imagePath, $presets, self::$tempDir);
+        foreach ($presetsArray as $presetName => $presetString) {
+            $this->assertArrayHasKey($presetName, $result->getThumbnails());
+            $this->assertFileExists(self::$tempDir . '/' . $result->getThumbnails()[$presetName]);
+            list($width, $height) = getimagesize(self::$tempDir . '/' . $result->getThumbnails()[$presetName]);
 
-            if (!$versionConfig['fit']) {
-                if ($versionConfig['width']) {
-                    $this->assertEquals($versionConfig['width'], $width);
+            if (!$presetString['fit']) {
+                if ($presetString['width']) {
+                    $this->assertEquals($presetString['width'], $width);
                 }
-                if ($versionConfig['height']) {
-                    $this->assertEquals($versionConfig['height'], $height);
+                if ($presetString['height']) {
+                    $this->assertEquals($presetString['height'], $height);
                 }
             }
         }
 
-        list($width, $height) = getimagesize(self::$tempDir . '/' . $result['big']);
+        list($width, $height) = getimagesize(self::$tempDir . '/' . $result->getThumbnails()['big']);
         if ($initialWidth > $initialHeight) {
             $this->assertEquals(400, $width);
             $this->assertEquals(($initialHeight / $initialWidth * 400), $height);
