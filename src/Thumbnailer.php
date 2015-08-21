@@ -14,7 +14,7 @@ use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;
 
-class Kartinki
+class Thumbnailer
 {
     const NAME_SEPARATOR = '_';
 

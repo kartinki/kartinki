@@ -1,6 +1,9 @@
 <?php
 
-namespace kartinki\Kartinki;
+namespace kartinki\Kartinki\Tests;
+
+use kartinki\Kartinki\Preset;
+use kartinki\Kartinki\PresetParser;
 
 class PresetsTest extends \PHPUnit_Framework_TestCase
 {

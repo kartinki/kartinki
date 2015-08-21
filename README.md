@@ -1,6 +1,6 @@
 # kartinki
 
-Simple tool for generating image thumbnails.
+Creating image thumbnails with simple configs like "200x200", "1280x720:fit,quality=75".
 
 [![Latest Stable Version](https://poser.pugx.org/kartinki/kartinki/v/stable)](https://packagist.org/packages/kartinki/kartinki)
 [![Build Status](https://travis-ci.org/kartinki/kartinki.svg?branch=master)](https://travis-ci.org/kartinki/kartinki)
@@ -8,20 +8,24 @@ Simple tool for generating image thumbnails.
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/3d8342cd-c351-4d95-9278-c582dd64948e/mini.png)](https://insight.sensiolabs.com/projects/3d8342cd-c351-4d95-9278-c582dd64948e)
 [![License](https://poser.pugx.org/kartinki/kartinki/license)](https://packagist.org/packages/kartinki/kartinki)
 
+## Requirements
+
+* PHP 5.4+ (7.0 not tested), HHVM
+* GD extension enabled
+
 ## Installing
 
-* Add `"kartinki/kartinki": "*"` to `composer.json`.
+* Add `"kartinki/kartinki": "~1.0.0"` to `composer.json`.
 * Run `composer install`
 
 ## Simple usage example
 
-For example, `filename.jpg` is 1600x1200.
+`filename.jpg` is 1600x1200.
 
 ```php
 <?php
-use kartinki\Kartinki\Kartinki;
 
-$result = (new Kartinki)->createThumbnails(
+$result = (new kartinki\Kartinki\Thumbnailer)->createThumbnails(
     '/path/to/image/filename.jpg',
     [
         'square' => '200x200',
@@ -32,7 +36,7 @@ $result = (new Kartinki)->createThumbnails(
 );
 ```
 
-Kartinki will place 3 files to /output/dir:
+Thumbnailer will place 3 files to /output/dir:
 
 ```
 1ceebb2cf4b0425a0ea1e1cb49810a07_square.jpg // 200x200

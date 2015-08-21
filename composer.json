@@ -15,6 +15,7 @@
     },
     "require": {
         "php": ">=5.4",
+        "ext-gd": "*",
         "imagine/imagine": "~0.6.1"
     },
     "require-dev": {

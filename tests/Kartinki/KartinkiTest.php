@@ -1,8 +1,11 @@
 <?php
 
-namespace kartinki\Kartinki;
+namespace kartinki\Kartinki\Tests;
 
 use kartinki\Kartinki\Interfaces\PresetInterface;
+use kartinki\Kartinki\Preset;
+use kartinki\Kartinki\PresetParser;
+use kartinki\Kartinki\Thumbnailer;
 
 class KartinkiTest extends \PHPUnit_Framework_TestCase
 {
@@ -53,7 +56,7 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
         $customTempDir = self::$tempDir . '_custom';
         $this->prepareTempDir($customTempDir);
 
-        $result = (new Kartinki)->createThumbnails(
+        $result = (new Thumbnailer)->createThumbnails(
             self::$assetsDir . '/big-vertical.jpg',
             [
                 'big' => '800x600:fit',
@@ -74,7 +77,7 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
     {
         $this->prepareTempDir();
 
-        $result = (new Kartinki)->createThumbnails(
+        $result = (new Thumbnailer)->createThumbnails(
             self::$assetsDir . '/big-vertical.jpg',
             [
                 'big' => '800x600:fit',
@@ -103,7 +106,7 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
 
         $imagePath = self::$assetsDir . '/big-horizontal.jpg';
 
-        $kartinki = new Kartinki;
+        $kartinki = new Thumbnailer;
         $result = $kartinki->createThumbnails($imagePath, $presets, self::$tempDir);
 
         $this->assertArrayHasKey('big', $result->getThumbnails());
@@ -154,7 +157,7 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
         $imagePath = self::$assetsDir . '/' . $imageName;
         list($initialWidth, $initialHeight) = getimagesize($imagePath);
 
-        $kartinki = new Kartinki;
+        $kartinki = new Thumbnailer;
         $result = $kartinki->createThumbnails($imagePath, $presets, self::$tempDir);
         foreach ($presetsArray as $presetName => $presetString) {
             $this->assertArrayHasKey($presetName, $result->getThumbnails());

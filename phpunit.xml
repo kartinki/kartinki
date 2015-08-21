@@ -11,7 +11,7 @@
 >
     <testsuites>
         <testsuite name="main">
-            <directory>tests/Kartinki</directory>
+            <directory>tests/kartinki</directory>
         </testsuite>
     </testsuites>
 </phpunit>
