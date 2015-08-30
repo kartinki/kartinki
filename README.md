@@ -25,13 +25,15 @@ Creating image thumbnails with simple configs like "200x200", "1280x720:fit,qual
 ```php
 <?php
 
+$config = [
+    'square' => '200x200',
+    'normal' => '400x400:fit',
+    'big'    => '1280x720:fit,quality=100',
+];
+
 $result = (new kartinki\Kartinki\Thumbnailer)->createThumbnails(
     '/path/to/image/filename.jpg',
-    [
-        'square' => '200x200',
-        'normal' => '400x400:fit',
-        'big'    => '1280x720:fit,quality=100',
-    ],
+    $config,
     '/output/dir' // optional
 );
 ```
