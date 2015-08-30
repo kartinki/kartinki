@@ -33,7 +33,9 @@ class Thumbnailer
     public function __construct(ImagineInterface $imagine = null, $presetParser = null)
     {
         if ($presetParser !== null && !($presetParser instanceof PresetParserInterface)) {
-            throw new InvalidArgumentException('$presetParser must implement kartinki\Kartinki\Interfaces\PresetParserInterface.');
+            throw new InvalidArgumentException(
+                '$presetParser must implement kartinki\Kartinki\Interfaces\PresetParserInterface.'
+            );
         }
         $this->processor = $imagine ?: new Imagine;
         $this->presetParser = $presetParser ?: new PresetParser;
@@ -63,7 +65,9 @@ class Thumbnailer
         }
         if (is_null($imageUniqueName)) {
             $imageUniqueName = $this->getUniqueName($imagePath);
-        } elseif (!is_string($imageUniqueName) && !(is_object($imageUniqueName) && method_exists($imageUniqueName, '__toString'))) {
+        } elseif (!is_string($imageUniqueName)
+            && !(is_object($imageUniqueName) && method_exists($imageUniqueName, '__toString'))
+        ) {
             throw new InvalidArgumentException("$imageUniqueName must be a string.");
         }
 
@@ -76,7 +80,9 @@ class Thumbnailer
             } elseif ($preset instanceof PresetInterface) {
                 $parsedPreset = $preset;
             } else {
-                throw new InvalidArgumentException('Preset must be a string or implements kartinki\Kartinki\Interfaces\PresetInterface.');
+                throw new InvalidArgumentException(
+                    'Preset must be a string or implements kartinki\Kartinki\Interfaces\PresetInterface.'
+                );
             }
 
             $thumbnailFilename = $imageUniqueName . self::NAME_SEPARATOR . $presetName . '.' . $imageExt;
