@@ -7,7 +7,7 @@ use kartinki\Kartinki\Preset;
 use kartinki\Kartinki\PresetParser;
 use kartinki\Kartinki\Thumbnailer;
 
-class KartinkiTest extends \PHPUnit_Framework_TestCase
+class ThumbnailerTest extends \PHPUnit_Framework_TestCase
 {
     private static $assetsDir;
     private static $tempDir;
