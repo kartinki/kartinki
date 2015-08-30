@@ -2,9 +2,9 @@
 
 namespace kartinki\Kartinki;
 
+use kartinki\Kartinki\Exceptions\InvalidPresetException;
 use kartinki\Kartinki\Interfaces\PresetInterface;
 use kartinki\Kartinki\Interfaces\PresetParserInterface;
-use kartinki\Kartinki\Exceptions\InvalidPresetException;
 
 class PresetParser implements PresetParserInterface
 {

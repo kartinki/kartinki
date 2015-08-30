@@ -2,8 +2,8 @@
 
 namespace kartinki\Kartinki;
 
-use kartinki\Kartinki\Interfaces\PresetInterface;
 use kartinki\Kartinki\Exceptions\InvalidArgumentException;
+use kartinki\Kartinki\Interfaces\PresetInterface;
 
 class Preset implements PresetInterface
 {
