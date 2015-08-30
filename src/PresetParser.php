@@ -50,7 +50,6 @@ class PresetParser implements PresetParserInterface
                     throw new InvalidPresetException(
                         'Thumbnail preset modifier "' . $presetParts[2] . '" is incorrect. '
                     );
-                    break;
             }
         }
     }
