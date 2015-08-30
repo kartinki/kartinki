@@ -10,7 +10,7 @@ Creating image thumbnails with simple configs like "200x200", "1280x720:fit,qual
 
 ## Requirements
 
-* PHP 5.4+ (7.0 not tested), HHVM
+* PHP 5.4+, 7.0, HHVM
 * GD extension enabled
 
 ## Installing
@@ -48,7 +48,7 @@ And $result will be instanse of kartinki\Kartinki\Result:
 
 ```php
 <?php
-$result->getVersions();
+$result->getThumbnails();
 // [
 //     'square' => '1ceebb2cf4b0425a0ea1e1cb49810a07_square.jpg',
 //     'normal' => '1ceebb2cf4b0425a0ea1e1cb49810a07_normal.jpg',
