@@ -99,7 +99,8 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException kartinki\Kartinki\Exceptions\FileNotFoundException
      */
-    public function testFileNotExistsException () {
+    public function testFileNotExistsException()
+    {
         $this->prepareTempDir();
 
         (new Thumbnailer)->createThumbnails('unknown file.jpg', ['big' => '800x600:fit']);
@@ -110,7 +111,8 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException kartinki\Kartinki\Exceptions\DirectoryIsNotWritableException
      */
-    public function testDirectoryIsNotWritableException () {
+    public function testDirectoryIsNotWritableException()
+    {
         $this->prepareTempDir();
 
         (new Thumbnailer)->createThumbnails(self::$assetsDir . '/big-horizontal.jpg', ['big' => '800x600:fit'], dirname(__FILE__) . '/unknown_dir');
@@ -142,7 +144,9 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
 
     private function prepareTempDir($tempDir = null)
     {
-        if (is_null($tempDir)) $tempDir = self::$tempDir;
+        if (is_null($tempDir)) {
+            $tempDir = self::$tempDir;
+        }
         if (is_dir($tempDir)) {
             $this->removeTempDir($tempDir);
         }
@@ -151,7 +155,9 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
 
     private function removeTempDir($tempDir = null)
     {
-        if (is_null($tempDir)) $tempDir = self::$tempDir;
+        if (is_null($tempDir)) {
+            $tempDir = self::$tempDir;
+        }
         foreach (scandir($tempDir) as $file) {
             if (in_array($file, ['.', '..'])) {
                 continue;
