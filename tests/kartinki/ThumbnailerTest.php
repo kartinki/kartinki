@@ -20,9 +20,9 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
 
     public function testThumbnailsCreating()
     {
-        $this->_testImage('big-horizontal.jpg');
-        $this->_testImage('big-vertical.jpg');
-        $this->_testImage('small-horizontal.png');
+        $this->checkImage('big-horizontal.jpg');
+        $this->checkImage('big-vertical.jpg');
+        $this->checkImage('small-horizontal.png');
     }
 
     public function testManuallyCreatedPresets()
@@ -31,24 +31,24 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
         $preset->setWidth(400);
         $preset->setHeight(400);
         $preset->setFit(true);
-        $this->_testManuallyCreatedPreset($preset);
+        $this->checkManuallyCreatedPreset($preset);
 
         $preset = (new Preset)->setWidth(400)->setHeight(400)->setFit(true);
-        $this->_testManuallyCreatedPreset($preset);
+        $this->checkManuallyCreatedPreset($preset);
 
         $preset = Preset::createFromArray([
             'width' => 400,
             'height' => 400,
             'fit' => true,
         ]);
-        $this->_testManuallyCreatedPreset($preset);
+        $this->checkManuallyCreatedPreset($preset);
 
         $preset = (new PresetParser)->parse('400x400:fit');
-        $this->_testManuallyCreatedPreset($preset);
+        $this->checkManuallyCreatedPreset($preset);
 
         $preset = new Preset(400, 400);
         $preset->setFit(true);
-        $this->_testManuallyCreatedPreset($preset);
+        $this->checkManuallyCreatedPreset($preset);
     }
 
     public function testCustomOutputDirectory()
@@ -115,12 +115,16 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
     {
         $this->prepareTempDir();
 
-        (new Thumbnailer)->createThumbnails(self::$assetsDir . '/big-horizontal.jpg', ['big' => '800x600:fit'], dirname(__FILE__) . '/unknown_dir');
+        (new Thumbnailer)->createThumbnails(
+            self::$assetsDir . '/big-horizontal.jpg',
+            ['big' => '800x600:fit'],
+            dirname(__FILE__) . '/unknown_dir'
+        );
 
         $this->removeTempDir();
     }
 
-    private function _testManuallyCreatedPreset(PresetInterface $preset)
+    private function checkManuallyCreatedPreset(PresetInterface $preset)
     {
         $this->prepareTempDir();
 
@@ -167,7 +171,7 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
         rmdir($tempDir);
     }
 
-    private function _testImage($imageName)
+    private function checkImage($imageName)
     {
         $this->prepareTempDir();
 
@@ -179,7 +183,10 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
             'orig' => ['width' => 0, 'height' => 0, 'fit' => false],
         ];
         $presets = array_map(function ($value) {
-            return $value['width'] . 'x' . $value['height'] . ($value['fit'] ? ':fit' : '') . (isset($value['quality']) ? ',quality=' . $value['quality'] : '');
+            $result = $value['width'] . 'x' . $value['height']
+                . ($value['fit'] ? ':fit' : '')
+                . (isset($value['quality']) ? ',quality=' . $value['quality'] : '');
+            return $result;
         }, $presetsArray);
 
         $imagePath = self::$assetsDir . '/' . $imageName;
