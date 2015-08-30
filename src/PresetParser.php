@@ -42,12 +42,15 @@ class PresetParser implements PresetParserInterface
         $presetObject->setWidth(intval($presetParts[1]));
         $presetObject->setHeight(intval($presetParts[2]));
         if (isset($presetParts[3])) {
-            if ($presetParts[3] === ':fit') {
-                $presetObject->setFit(true);
-            } else {
-                throw new InvalidPresetException(
-                    'Thumbnail preset modifier "' . $presetParts[2] . '" is incorrect. '
-                );
+            switch ($presetParts[3]) {
+                case ':fit':
+                    $presetObject->setFit(true);
+                    break;
+                default:
+                    throw new InvalidPresetException(
+                        'Thumbnail preset modifier "' . $presetParts[2] . '" is incorrect. '
+                    );
+                    break;
             }
         }
     }
@@ -66,9 +69,8 @@ class PresetParser implements PresetParserInterface
                 case 'quality':
                     if ($parameterValue === null) {
                         throw new InvalidPresetException('Quality value "' . $parameterValue . '" is incorrect.');
-                    } else {
-                        $presetObject->setQuality(intval($parameterValue));
                     }
+                    $presetObject->setQuality(intval($parameterValue));
                     break;
                 default:
                     throw new InvalidPresetException('Parameter "' . $parameterName . '" is incorrect.');

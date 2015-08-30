@@ -45,11 +45,11 @@ class Thumbnailer
      * @param string $imagePath
      * @param string[]|PresetInterface[] $presets
      * @param string $outputDir
-     * @param string $imageUniqueName
+     * @param string $imageUniqueId
      *
      * @return Result
      */
-    public function createThumbnails($imagePath, $presets, $outputDir = null, $imageUniqueName = null)
+    public function createThumbnails($imagePath, $presets, $outputDir = null, $imageUniqueId = null)
     {
         if (!file_exists($imagePath)) {
             throw new FileNotFoundException("File '{$imagePath}' not exists.");
@@ -63,16 +63,16 @@ class Thumbnailer
         if (!is_writable($outputDir)) {
             throw new DirectoryIsNotWritableException("Ouput directory '{$outputDir}' is not writable.");
         }
-        if (is_null($imageUniqueName)) {
-            $imageUniqueName = $this->getUniqueName($imagePath);
-        } elseif (!is_string($imageUniqueName)
-            && !(is_object($imageUniqueName) && method_exists($imageUniqueName, '__toString'))
+        if (is_null($imageUniqueId)) {
+            $imageUniqueId = $this->getUniqueName($imagePath);
+        } elseif (!is_string($imageUniqueId)
+            && !(is_object($imageUniqueId) && method_exists($imageUniqueId, '__toString'))
         ) {
-            throw new InvalidArgumentException("$imageUniqueName must be a string.");
+            throw new InvalidArgumentException("$imageUniqueId must be a string.");
         }
 
         $thumbnails = [];
-        $imageExt = pathinfo($imagePath, PATHINFO_EXTENSION);
+        $imageExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
 
         foreach ($presets as $presetName => $preset) {
             if (is_string($preset)) {
@@ -85,7 +85,7 @@ class Thumbnailer
                 );
             }
 
-            $thumbnailFilename = $imageUniqueName . self::NAME_SEPARATOR . $presetName . '.' . $imageExt;
+            $thumbnailFilename = $imageUniqueId . self::NAME_SEPARATOR . $presetName . '.' . $imageExtension;
             $image = $this->processor->read(fopen($imagePath, 'r'));
 
             $thumbnail = $this->createImageThumbnail($image, $parsedPreset);
@@ -95,7 +95,7 @@ class Thumbnailer
             $thumbnails[$presetName] = $thumbnailFilename;
         }
 
-        $result = new Result($imageUniqueName, $imageExt, $thumbnails);
+        $result = new Result($imageUniqueId, $imageExtension, $thumbnails);
 
         return $result;
     }

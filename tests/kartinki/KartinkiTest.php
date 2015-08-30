@@ -90,8 +90,8 @@ class KartinkiTest extends \PHPUnit_Framework_TestCase
         $expectedId = str_replace('_big.jpg', '', $filename);
         $expectedExt = pathinfo($filename, PATHINFO_EXTENSION);
 
-        $this->assertEquals($expectedId, $result->getId());
-        $this->assertEquals($expectedExt, $result->getExt());
+        $this->assertEquals($expectedId, $result->getUniqueId());
+        $this->assertEquals($expectedExt, $result->getExtension());
 
         $this->removeTempDir();
     }

@@ -7,12 +7,12 @@ class Result
     /**
      * @var string
      */
-    protected $id;
+    protected $uniqueId;
 
     /**
      * @var string
      */
-    protected $ext;
+    protected $extension;
 
     /**
      * @var array|\string[]
@@ -20,31 +20,31 @@ class Result
     protected $thumbnails = [];
 
     /**
-     * @param string $id
-     * @param string $ext
+     * @param string $uniqueId
+     * @param string $extension
      * @param string[] $thumbnails
      */
-    public function __construct($id, $ext, array $thumbnails)
+    public function __construct($uniqueId, $extension, array $thumbnails)
     {
-        $this->id = $id;
-        $this->ext = $ext;
+        $this->uniqueId = $uniqueId;
+        $this->extension = $extension;
         $this->thumbnails = $thumbnails;
     }
 
     /**
      * @return string
      */
-    public function getId()
+    public function getUniqueId()
     {
-        return $this->id;
+        return $this->uniqueId;
     }
 
     /**
      * @return string
      */
-    public function getExt()
+    public function getExtension()
     {
-        return $this->ext;
+        return $this->extension;
     }
 
     /**
