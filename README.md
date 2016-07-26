@@ -15,7 +15,7 @@ Creating image thumbnails with simple configs like "200x200", "1280x720:fit,qual
 
 ## Installing
 
-* Add `"kartinki/kartinki": "~1.0.0"` to `composer.json`.
+* Add `"kartinki/kartinki": "~2.0.0"` to `composer.json`.
 * Run `composer install`
 
 ## Simple usage example
