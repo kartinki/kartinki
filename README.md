@@ -4,9 +4,11 @@ Creating image thumbnails with simple configs like "200x200", "1280x720:fit,qual
 
 [![Latest Stable Version](https://poser.pugx.org/kartinki/kartinki/v/stable)](https://packagist.org/packages/kartinki/kartinki)
 [![Build Status](https://travis-ci.org/kartinki/kartinki.svg?branch=master)](https://travis-ci.org/kartinki/kartinki)
+[![License](https://poser.pugx.org/kartinki/kartinki/license)](https://packagist.org/packages/kartinki/kartinki)
+
+[![Code Climate](https://codeclimate.com/github/kartinki/kartinki/badges/gpa.svg)](https://codeclimate.com/github/kartinki/kartinki)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kartinki/kartinki/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kartinki/kartinki/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/cdfcdd4e-7b80-440c-80f1-9f0c3f69b117/mini.png)](https://insight.sensiolabs.com/projects/cdfcdd4e-7b80-440c-80f1-9f0c3f69b117)
-[![License](https://poser.pugx.org/kartinki/kartinki/license)](https://packagist.org/packages/kartinki/kartinki)
 
 ## Requirements
 
